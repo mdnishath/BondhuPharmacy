@@ -78,7 +78,14 @@ fun BondhuNavGraph() {
                 WishlistScreen(navController = navController)
             }
 
-            composable(Screen.Checkout.route) {
+        composable(Screen.Profile.route) {
+            com.bondhu.pharmacy.ui.screens.profile.ProfileScreen(
+                onNavigateToLogin = { navController.navigate(Screen.Login.route) },
+                onNavigateToSignup = { navController.navigate(Screen.Signup.route) }
+            )
+        }
+
+        composable(Screen.Checkout.route) {
                 CheckoutScreen(navController = navController)
             }
 

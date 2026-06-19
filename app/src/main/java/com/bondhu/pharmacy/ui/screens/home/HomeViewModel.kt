@@ -14,6 +14,9 @@ class HomeViewModel : ViewModel() {
     private val _featuredMedicines = MutableStateFlow<List<Medicine>>(emptyList())
     val featuredMedicines: StateFlow<List<Medicine>> = _featuredMedicines.asStateFlow()
 
+    val cartItems = CartRepository.cartItems
+    val wishlistItems = WishlistRepository.wishlistItems
+
     init {
         loadFeaturedMedicines()
     }
@@ -31,6 +34,5 @@ class HomeViewModel : ViewModel() {
     }
 
     fun isInCart(medicineId: String): Boolean = CartRepository.isInCart(medicineId)
-
     fun isInWishlist(medicineId: String): Boolean = WishlistRepository.isInWishlist(medicineId)
 }

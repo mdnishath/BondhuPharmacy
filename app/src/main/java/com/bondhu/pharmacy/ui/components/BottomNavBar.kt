@@ -35,6 +35,7 @@ val bottomNavItems = listOf(
     BottomNavItem(Screen.Catalog,  "ওষুধ",    Icons.Default.Search),
     BottomNavItem(Screen.Cart,     "কার্ট",    Icons.Default.ShoppingCart),
     BottomNavItem(Screen.Wishlist, "পছন্দ",    Icons.Default.Favorite),
+    BottomNavItem(Screen.Profile,  "প্রোফাইল", Icons.Default.Person)
 )
 
 @Composable

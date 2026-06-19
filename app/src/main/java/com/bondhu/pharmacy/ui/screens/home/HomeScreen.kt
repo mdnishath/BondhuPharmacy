@@ -35,6 +35,8 @@ import com.bondhu.pharmacy.ui.theme.LimeGreenAlpha
 import com.bondhu.pharmacy.ui.theme.PanelDark
 import com.bondhu.pharmacy.ui.theme.TextMuted
 import com.bondhu.pharmacy.ui.theme.TextPrimary
+import com.bondhu.pharmacy.updater.UpdateDialog
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(
@@ -42,7 +44,12 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
     val featuredMedicines by viewModel.featuredMedicines.collectAsState()
+    val cartItems by viewModel.cartItems.collectAsState()
+    val wishlistItems by viewModel.wishlistItems.collectAsState()
     val scrollState = rememberScrollState()
+
+    // Place UpdateDialog here so it overlays when there's an update
+    UpdateDialog()
 
     Column(
         modifier = Modifier
@@ -79,15 +86,24 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = LimeGreen.copy(alpha = 0.2f)
+                    color = LimeGreen.copy(alpha = 0.15f),
+                    contentColor = LimeGreen
                 ) {
-                    Text(
-                        text = "📞 Emergency: 01797691153",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = LimeGreen,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                    )
+                    Row(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "📞",
+                            fontSize = 14.sp
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Emergency: 01797691153",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
@@ -152,8 +168,8 @@ fun HomeScreen(
             items(featuredMedicines) { medicine ->
                 MedicineCard(
                     medicine = medicine,
-                    isInCart = viewModel.isInCart(medicine.id),
-                    isInWishlist = viewModel.isInWishlist(medicine.id),
+                    isInCart = cartItems.any { it.medicine.id == medicine.id },
+                    isInWishlist = wishlistItems.any { it.id == medicine.id },
                     onAddToCart = { viewModel.addToCart(medicine) },
                     onToggleWishlist = { viewModel.toggleWishlist(medicine) },
                     onCardClick = { navController.navigate(Screen.MedicineDetail.createRoute(medicine.id)) },
@@ -162,6 +178,49 @@ fun HomeScreen(
             }
         }
         
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // All Medicines Section (Grid)
+        Text(
+            text = "সব ঔষধ",
+            style = MaterialTheme.typography.titleLarge,
+            color = TextPrimary,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
         Spacer(modifier = Modifier.height(16.dp))
+
+        // Create a 2-column grid manually
+        val allMedicines = com.bondhu.pharmacy.data.repository.MedicineRepository.getAllMedicines()
+        val chunked = allMedicines.chunked(2)
+        
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            chunked.forEach { rowItems ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    rowItems.forEach { medicine ->
+                        MedicineCard(
+                            medicine = medicine,
+                            isInCart = cartItems.any { it.medicine.id == medicine.id },
+                            isInWishlist = wishlistItems.any { it.id == medicine.id },
+                            onAddToCart = { viewModel.addToCart(medicine) },
+                            onToggleWishlist = { viewModel.toggleWishlist(medicine) },
+                            onCardClick = { navController.navigate(Screen.MedicineDetail.createRoute(medicine.id)) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    if (rowItems.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
