@@ -93,23 +93,16 @@ fun HomeScreen(
                     color = TextPrimary
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                androidx.compose.material3.IconButton(
-                    onClick = {
+                Text(
+                    text = "📞 01797691153",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = LimeGreen,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable {
                         val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:01797691153"))
                         context.startActivity(intent)
-                    },
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clip(androidx.compose.foundation.shape.CircleShape)
-                        .background(Color.White)
-                ) {
-                    androidx.compose.material3.Icon(
-                        imageVector = Icons.Default.Phone,
-                        contentDescription = "Call",
-                        tint = Color(0xFF1B5E20),
-                        modifier = Modifier.size(26.dp)
-                    )
-                }
+                    }
+                )
             }
         }
 
