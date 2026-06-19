@@ -37,6 +37,13 @@ import com.bondhu.pharmacy.ui.theme.TextMuted
 import com.bondhu.pharmacy.ui.theme.TextPrimary
 import com.bondhu.pharmacy.updater.UpdateDialog
 import androidx.compose.ui.unit.sp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Phone
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 
 @Composable
 fun HomeScreen(
@@ -47,6 +54,7 @@ fun HomeScreen(
     val cartItems by viewModel.cartItems.collectAsState()
     val wishlistItems by viewModel.wishlistItems.collectAsState()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     // Place UpdateDialog here so it overlays when there's an update
     UpdateDialog()
@@ -84,29 +92,31 @@ fun HomeScreen(
                     color = TextPrimary
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                Surface(
+                Button(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:01797691153"))
+                        context.startActivity(intent)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = LimeGreen.copy(alpha = 0.2f),
+                        contentColor = LimeGreen
+                    ),
                     shape = RoundedCornerShape(12.dp),
-                    color = LimeGreen.copy(alpha = 0.15f)
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    modifier = Modifier.height(40.dp)
                 ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = androidx.compose.material.icons.Icons.Default.Phone,
-                            contentDescription = "Phone",
-                            tint = LimeGreen,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "01797691153",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = LimeGreen,
-                            fontWeight = FontWeight.ExtraBold,
-                            letterSpacing = 1.sp
-                        )
-                    }
+                    androidx.compose.material3.Icon(
+                        imageVector = Icons.Default.Phone,
+                        contentDescription = "Phone",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "01797691153",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.sp
+                    )
                 }
             }
         }
