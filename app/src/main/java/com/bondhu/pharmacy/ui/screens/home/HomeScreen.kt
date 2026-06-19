@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -98,24 +99,18 @@ fun HomeScreen(
                         context.startActivity(intent)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = LimeGreen.copy(alpha = 0.2f),
-                        contentColor = LimeGreen
+                        containerColor = LimeGreen,
+                        contentColor = Color.Black
                     ),
                     shape = RoundedCornerShape(12.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    modifier = Modifier.height(40.dp)
+                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                 ) {
-                    androidx.compose.material3.Icon(
-                        imageVector = Icons.Default.Phone,
-                        contentDescription = "Phone",
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "01797691153",
-                        style = MaterialTheme.typography.titleSmall,
+                        text = "📞  01797691153",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Black,
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 1.sp
+                        letterSpacing = 1.5.sp
                     )
                 }
             }
