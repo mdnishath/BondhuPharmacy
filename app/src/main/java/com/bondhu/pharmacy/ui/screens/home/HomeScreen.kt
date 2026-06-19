@@ -86,21 +86,23 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 Surface(
                     shape = RoundedCornerShape(12.dp),
-                    color = LimeGreen.copy(alpha = 0.15f),
-                    contentColor = LimeGreen
+                    color = LimeGreen.copy(alpha = 0.15f)
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "📞",
-                            fontSize = 18.sp
+                        androidx.compose.material3.Icon(
+                            imageVector = androidx.compose.material.icons.Icons.Default.Phone,
+                            contentDescription = "Phone",
+                            tint = LimeGreen,
+                            modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "01797691153",
                             style = MaterialTheme.typography.titleMedium,
+                            color = LimeGreen,
                             fontWeight = FontWeight.ExtraBold,
                             letterSpacing = 1.sp
                         )
